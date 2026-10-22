@@ -16,9 +16,13 @@ lower body) and **[MyoHuman](https://github.com/nikswir/Myohuman)** (full body,
 > The muscle transformer is adapted from **Arnold** (Chiappa et al.,
 > [arXiv:2508.18066](https://arxiv.org/abs/2508.18066)).
 
-<!-- TODO: demo GIF of a trained policy imitating a reference clip -->
 <p align="center">
-  <em>Demo GIF — coming soon.</em>
+  <img src="docs/assets/imitation.gif" width="480"
+       alt="Trained MyoTrainer policy imitating motion clips in MyoHuman">
+  <br>
+  <em>A trained policy (MLP + LATTICE) tracking held-out KIT motions in
+  MyoHuman: walking, turning and arm movements. Muscles are coloured by
+  activation; the translucent blue skeleton is the reference motion.</em>
 </p>
 
 ## What it provides
@@ -94,6 +98,15 @@ uv run python -m myotrainer.validate_policy   # roll out & score imitation metri
 uv run python -m myotrainer.mine_negatives    # select worst-imitated clips
 ```
 
+Render a GIF of successful imitations (diverse clips picked by reference
+kinematics, policy rollout + translucent reference ghost):
+
+```bash
+uv run python -m myotrainer.render_gifs device=mps run=render_gifs \
+    run.checkpoint=/path/to/model.pth \
+    '+run/experts@run.experts.myo=myohuman' learning.policy=lattice
+```
+
 ## Repo layout
 
 ```text
@@ -104,6 +117,7 @@ src/myotrainer/
 ├── experts/              environment wrappers — Kinesis (MyoLegs), MyoHuman
 ├── observation_parser.py, action_parser.py   observation / action token layout
 ├── mine_negatives.py, validate_policy.py      hard-negative mining, evaluation
+├── render_gifs.py        GIF of successful imitations (docs/assets/imitation.gif)
 └── logger.py, wandb_logger.py, profiler.py, memory.py   logging & utilities
 cfg/                      Hydra config (config.yaml, learning/, run/, run/experts/)
 downloads/Kinesis_assets/ SMPL, motion dicts, initial poses (Git LFS)
