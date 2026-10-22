@@ -1,0 +1,29 @@
+# Render GIF Run Config
+
+# ==================== Checkpoint ====================
+checkpoint: ""  # путь к .pth (обязателен)
+
+# ==================== Experts ====================
+# mode: "valid" = eval config (no random_start, no heading randomization)
+mode: valid
+experts: {}
+fast_eval: true
+
+# ==================== Clip selection ====================
+# Для каждого движения берётся самое активное окно clip_seconds по
+# кинематике референса; клипы выбираются farthest-point по признакам
+# (ходьба, поворот, высота таза, руки, ноги) из активной половины
+# движений. Клип засчитывается, если policy не упала до конца окна.
+num_clips: 6
+clip_seconds: 6.0
+window_step: 1.0  # шаг перебора начала окна, сек
+
+# ==================== Rendering ====================
+output: data/gifs/imitation.gif
+width: 800
+height: 600
+frame_stride: 2  # 30 Hz control → 15 fps GIF
+ghost_alpha: 0.3  # прозрачность референса
+cam_distance: 3.0
+cam_azimuth: 135.0
+cam_elevation: -15.0
