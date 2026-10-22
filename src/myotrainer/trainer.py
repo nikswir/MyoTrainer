@@ -762,7 +762,7 @@ class MyoTrainer:
         mp_done: mp.Event,
         min_batch_size: int,
         expert_name: str,
-        step_counter: mp.Value | None = None,
+        step_counter: "mp.Value | None" = None,
         enable_profiler: bool = False,
     ) -> None:
         """
